@@ -1,7 +1,10 @@
 #pragma once
+#include <vector>
 #include <wx/frame.h>
 
 class wxDirPickerCtrl;
+class wxNotebook;
+class Operation;
 
 class MainFrame : public wxFrame
 {
@@ -14,6 +17,10 @@ public:
 private:
 	wxDirPickerCtrl* dirPickerInput;
 	wxDirPickerCtrl* dirPickerOutput;
+	wxNotebook* notebook;
+
+	std::vector<Operation*> operations;
 
 	void OnCkUseInputAsOutput(wxCommandEvent& event);
+	void OnBtStart(wxCommandEvent& event);
 };

@@ -6,7 +6,10 @@
 #include <wx/stattext.h>
 #include <wx/filepicker.h>
 #include <wx/checkbox.h>
-#include <wx/filename.h>
+#include <wx/notebook.h>
+
+#include "Operation.h"
+#include "ResizePanel.h"
 
 MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
@@ -35,6 +38,24 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	staticSizerDir->Add(flexGridDir, 1, wxALIGN_CENTER_HORIZONTAL, 5);
 	boxSizer->Add(staticSizerDir, 0, wxALL | wxEXPAND, 5);
 
+	// Operations
+	auto staticSizerOperations = new wxStaticBoxSizer(
+		new wxStaticBox(this, wxID_ANY, "Operations"), wxVERTICAL);
+	notebook = new wxNotebook(this, wxID_ANY);
+
+	auto resizePanel = new ResizePanel(notebook);
+	notebook->AddPage(resizePanel, "Resize", true);
+	operations.emplace_back(resizePanel);
+
+	staticSizerOperations->Add(notebook, 1, wxEXPAND | wxALL, 5);
+	// Button start
+	auto btStart = new wxButton(this, wxID_ANY, "Start");
+	btStart->Bind(wxEVT_BUTTON, &MainFrame::OnBtStart, this);
+	staticSizerOperations->Add(btStart, 1, wxALIGN_CENTER_HORIZONTAL, 5);
+
+	boxSizer->Add(staticSizerOperations, 0, wxALL | wxEXPAND, 5);
+
+
 	this->SetSizer(boxSizer);
 	this->Layout();
 	this->Centre(wxBOTH);
@@ -53,4 +74,8 @@ void MainFrame::OnCkUseInputAsOutput(wxCommandEvent & event)
 		dirPickerOutput->SetPath(dirPickerInput->GetPath());
 	}
 	dirPickerOutput->Enable(!state);
+}
+
+void MainFrame::OnBtStart(wxCommandEvent & event)
+{
 }
