@@ -7,6 +7,8 @@
 #include <wx/filepicker.h>
 #include <wx/checkbox.h>
 #include <wx/notebook.h>
+#include <wx/log.h>
+#include <wx/dir.h>
 
 #include "Operation.h"
 #include "ResizePanel.h"
@@ -78,4 +80,47 @@ void MainFrame::OnCkUseInputAsOutput(wxCommandEvent & event)
 
 void MainFrame::OnBtStart(wxCommandEvent & event)
 {
+	// Update the output if the checkbox is checked
+	OnCkUseInputAsOutput((wxCommandEvent) NULL);
+	// Get the dir
+	const auto inputDir = dirPickerInput->GetPath();
+	const auto outputDir = dirPickerInput->GetPath();
+	if (inputDir == "" || outputDir == "")
+	{
+		wxLogError("Please select the input and output directories.");
+		return;
+	}
+	// Get the files
+	std::vector<std::string> files;
+	// Supported files got from the OpenCV imread documentation
+	std::vector<std::string> supportedFiles = { "JPG", "jpg",
+		"JPEG", "jpeg",
+		"PNG", "png",
+		"TIFF", "tiff"
+	};
+	wxArrayString filesAux;
+	const auto numberOfFiles = wxDir::GetAllFiles(inputDir, &filesAux);
+	for (size_t i = 0; i < numberOfFiles; i++)
+	{
+		const auto file = filesAux.Item(i);
+		wxString ext;
+		wxFileName::SplitPath(file, nullptr, nullptr, &ext);
+		for (const auto& sup : supportedFiles)
+		{
+			if (sup == ext)
+			{
+				files.emplace_back(file.ToStdString());
+				break;
+			}
+		}
+	}
+	const auto selectedOperation = notebook->GetSelection();
+	if (selectedOperation == wxNOT_FOUND || selectedOperation >= operations.size())
+	{
+		wxLogError("Could not define the operation.");
+	}
+	if (!operations[selectedOperation]->Process(files, outputDir.ToStdString()))
+	{
+		wxLogError("Error in the operation");
+	}
 }
