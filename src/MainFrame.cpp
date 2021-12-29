@@ -23,21 +23,23 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	auto staticSizerDir = new wxStaticBoxSizer(
 		new wxStaticBox(this, wxID_ANY, "Image selection"), wxVERTICAL);
 	auto flexGridDir = new wxFlexGridSizer(2);
+	flexGridDir->AddGrowableCol(1);
+	flexGridDir->SetFlexibleDirection(wxBOTH);
 	// Input dir
 	flexGridDir->Add(new wxStaticText(this, wxID_ANY, "Input directory"));
 	dirPickerInput = new wxDirPickerCtrl(this, wxID_ANY);
-	flexGridDir->Add(dirPickerInput, 0, wxALL, 5);
+	flexGridDir->Add(dirPickerInput, 0, wxALL | wxEXPAND, 5);
 	// Output dir
 	flexGridDir->Add(new wxStaticText(this, wxID_ANY, "Output directory"));
 	dirPickerOutput = new wxDirPickerCtrl(this, wxID_ANY);
-	flexGridDir->Add(dirPickerOutput, 0, wxALL, 5);
+	flexGridDir->Add(dirPickerOutput, 0, wxALL | wxEXPAND, 5);
 	// Used the input directory as output
 	flexGridDir->AddSpacer(1);
 	auto cbUseInputAsOutput = new wxCheckBox(
-		this, wxID_ANY, "Use input directory as output \n(the files will be overwritten).");
+		this, wxID_ANY, "Use input directory as output (the files will be overwritten).");
 	cbUseInputAsOutput->Bind(wxEVT_CHECKBOX, &MainFrame::OnCkUseInputAsOutput, this);
 	flexGridDir->Add(cbUseInputAsOutput, 0, wxALL, 5);
-	staticSizerDir->Add(flexGridDir, 1, wxALIGN_CENTER_HORIZONTAL, 5);
+	staticSizerDir->Add(flexGridDir, 1, wxALL | wxEXPAND, 5);
 	boxSizer->Add(staticSizerDir, 0, wxALL | wxEXPAND, 5);
 
 	// Operations
@@ -49,13 +51,13 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	notebook->AddPage(resizePanel, "Resize", true);
 	operations.emplace_back(resizePanel);
 
-	staticSizerOperations->Add(notebook, 1, wxEXPAND | wxALL, 5);
+	staticSizerOperations->Add(notebook, 1, wxALL | wxEXPAND, 5);
+	boxSizer->Add(staticSizerOperations, 0, wxALL | wxEXPAND, 5);
+
 	// Button start
 	auto btStart = new wxButton(this, wxID_ANY, "Start");
 	btStart->Bind(wxEVT_BUTTON, &MainFrame::OnBtStart, this);
-	staticSizerOperations->Add(btStart, 1, wxALIGN_CENTER_HORIZONTAL, 5);
-
-	boxSizer->Add(staticSizerOperations, 0, wxALL | wxEXPAND, 5);
+	boxSizer->Add(btStart, 0, wxALIGN_CENTER_HORIZONTAL, 5);
 
 
 	this->SetSizer(boxSizer);
