@@ -84,7 +84,7 @@ void MainFrame::OnBtStart(wxCommandEvent & event)
 	OnCkUseInputAsOutput((wxCommandEvent) NULL);
 	// Get the dir
 	const auto inputDir = dirPickerInput->GetPath();
-	const auto outputDir = dirPickerInput->GetPath();
+	const auto outputDir = dirPickerOutput->GetPath() + "/";
 	if (inputDir == "" || outputDir == "")
 	{
 		wxLogError("Please select the input and output directories.");
@@ -113,6 +113,11 @@ void MainFrame::OnBtStart(wxCommandEvent & event)
 				break;
 			}
 		}
+	}
+	if (files.size() == 0)
+	{
+		wxLogError("The selected input directory did not have any supported file.");
+		return;
 	}
 	const auto selectedOperation = notebook->GetSelection();
 	if (selectedOperation == wxNOT_FOUND || selectedOperation >= operations.size())
