@@ -17,7 +17,9 @@ add_executable(${PROJECT_NAME} src/App.h
 				src/MainFrame.cpp
 				src/Operation.h
 				src/ResizePanel.h
-				src/ResizePanel.cpp)
+				src/ResizePanel.cpp
+				src/RenamePanel.h
+				src/RenamePanel.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
 

@@ -12,6 +12,7 @@
 
 #include "Operation.h"
 #include "ResizePanel.h"
+#include "RenamePanel.h"
 
 MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
@@ -50,6 +51,10 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	auto resizePanel = new ResizePanel(notebook);
 	notebook->AddPage(resizePanel, "Resize", true);
 	operations.emplace_back(resizePanel);
+
+	auto renamePanel = new RenamePanel(notebook);
+	notebook->AddPage(renamePanel, "Rename", true);
+	operations.emplace_back(renamePanel);
 
 	staticSizerOperations->Add(notebook, 1, wxALL | wxEXPAND, 5);
 	boxSizer->Add(staticSizerOperations, 0, wxALL | wxEXPAND, 5);

@@ -15,16 +15,29 @@ public:
 		std::string fileName = "";
 		if (filePath.find_last_of('/') != std::string::npos)
 		{
-			fileName = filePath.substr(filePath.find_last_of('/') + 1, filePath.size());
+			fileName = filePath.substr(filePath.find_last_of('/') + 1, std::string::npos);
 		}
 		else if (filePath.find_last_of('\\') != std::string::npos)
 		{
-			fileName = filePath.substr(filePath.find_last_of('\\') + 1, filePath.size());
+			fileName = filePath.substr(filePath.find_last_of('\\') + 1, std::string::npos);
 		}
 		if (fileName != "" && !withExtension)
 		{
 			return fileName.substr(0, fileName.find_last_of('.'));
 		}
 		return fileName;
+	}
+
+	// Get the file extension
+	std::string GetFileExtension(const std::string& filePath, bool withDot = true)
+	{
+		if (withDot)
+		{
+			return filePath.substr(filePath.find_last_of('.'), std::string::npos);
+		}
+		else
+		{
+			return filePath.substr(filePath.find_last_of('.') + 1, std::string::npos);
+		}
 	}
 };

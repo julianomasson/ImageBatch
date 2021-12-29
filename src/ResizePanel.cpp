@@ -62,8 +62,8 @@ bool ResizePanel::Process(const std::vector<std::string>& inputFiles,
 	// Get the parameters
 	const auto width = spinWidth->GetValue();
 	const auto height = spinHeight->GetValue();
-	const auto useFixedHeight = ((wxRadioButton*)this->GetWindowChild(fixedHeight))->GetValue();
-	const auto useFixedWidth = ((wxRadioButton*)this->GetWindowChild(fixedWidth))->GetValue();
+	const auto useFixedHeight = static_cast<wxRadioButton*>(this->GetWindowChild(fixedHeight))->GetValue();
+	const auto useFixedWidth = static_cast<wxRadioButton*>(this->GetWindowChild(fixedWidth))->GetValue();
 	int count = 0;
 	for (const auto &file : inputFiles)
 	{
