@@ -12,6 +12,7 @@
 
 #include "Operation.h"
 #include "ResizePanel.h"
+#include "CropPanel.h"
 #include "RenamePanel.h"
 
 MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
@@ -51,6 +52,10 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	auto resizePanel = new ResizePanel(notebook);
 	notebook->AddPage(resizePanel, "Resize", true);
 	operations.emplace_back(resizePanel);
+
+	auto cropPanel = new CropPanel(notebook);
+	notebook->AddPage(cropPanel, "Crop", true);
+	operations.emplace_back(cropPanel);
 
 	auto renamePanel = new RenamePanel(notebook);
 	notebook->AddPage(renamePanel, "Rename", true);
