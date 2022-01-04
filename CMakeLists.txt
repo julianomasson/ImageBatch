@@ -11,7 +11,9 @@ include(${wxWidgets_USE_FILE})
 # OpenCV
 find_package(OpenCV REQUIRED)
 
-add_executable(${PROJECT_NAME} src/App.h
+add_executable(${PROJECT_NAME}  src/Resource.rc
+				src/resource.h
+				src/App.h
 				src/App.cpp
 				src/MainFrame.h
 				src/MainFrame.cpp

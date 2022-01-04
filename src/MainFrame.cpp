@@ -18,6 +18,7 @@
 MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
+	this->SetIcons(wxICON(AAAAAA_ICON));
 	this->SetBackgroundColour(wxColor(240, 240, 240));
 	auto boxSizer = new wxBoxSizer(wxVERTICAL);
 	
