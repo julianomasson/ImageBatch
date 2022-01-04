@@ -59,3 +59,9 @@ set (CPACK_NSIS_MODIFY_PATH "ON")
 
 # Must be after the last CPACK macros
 include(CPack)
+
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC "PROJECT_NAME=\"${PROJECT_NAME}\"")
+target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR})
+target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_VERSION_MINOR=${CPACK_PACKAGE_VERSION_MINOR})
+target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_VERSION_PATCH=${CPACK_PACKAGE_VERSION_PATCH})

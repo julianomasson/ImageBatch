@@ -1,6 +1,8 @@
 #include "MainFrame.h"
 
 // WX
+#include <wx/menu.h>
+#include <wx/menuitem.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
@@ -9,6 +11,7 @@
 #include <wx/notebook.h>
 #include <wx/log.h>
 #include <wx/dir.h>
+#include <wx/aboutdlg.h>
 
 #include "Operation.h"
 #include "ResizePanel.h"
@@ -20,6 +23,14 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 {
 	this->SetIcons(wxICON(AAAAAA_ICON));
 	this->SetBackgroundColour(wxColor(240, 240, 240));
+
+	// Menu
+	auto menuBar = new wxMenuBar();
+	auto menuAbout = new wxMenu();
+	auto itemAbout = new wxMenuItem(menuAbout, wxID_ANY, "About...");
+	menuAbout->Append(itemAbout);
+	menuBar->Append(menuAbout, "About");
+
 	auto boxSizer = new wxBoxSizer(wxVERTICAL);
 	
 	// Directories
@@ -72,15 +83,30 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	btStart->Bind(wxEVT_BUTTON, &MainFrame::OnBtStart, this);
 	boxSizer->Add(btStart, 0, wxALIGN_CENTER_HORIZONTAL, 5);
 
-
+	this->SetMenuBar(menuBar);
 	this->SetSizer(boxSizer);
 	this->Layout();
 	this->Centre(wxBOTH);
+	// Since we only have one menu item, we can use this, otherwise we should add IDs to the menus
+	this->Connect(wxEVT_MENU, wxMenuEventHandler(MainFrame::OnMenuAbout), 0, 0);
 }
 
 MainFrame::~MainFrame()
 {
 
+}
+
+void MainFrame::OnMenuAbout(wxMenuEvent& event)
+{
+	wxAboutDialogInfo aboutInfo;
+	aboutInfo.SetName("ImageBatch");
+	wxString version;
+	version << PROJECT_VERSION_MAJOR << "." << PROJECT_VERSION_MINOR << "." << PROJECT_VERSION_PATCH;
+	aboutInfo.SetVersion(version);
+	aboutInfo.SetDescription("Image utility software.");
+	aboutInfo.SetWebSite("https://github.com/julianomasson/ImageBatch");
+	aboutInfo.AddDeveloper("Juliano Emir Nunes Masson");
+	wxAboutBox(aboutInfo);
 }
 
 void MainFrame::OnCkUseInputAsOutput(wxCommandEvent & event)
