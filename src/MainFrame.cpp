@@ -134,7 +134,8 @@ void MainFrame::OnBtStart(wxCommandEvent & event)
 	// Get the files
 	std::vector<std::string> files;
 	// Supported files got from the OpenCV imread documentation
-	std::vector<std::string> supportedFiles = { "JPG", "jpg",
+	std::vector<std::string> supportedFiles = { "BMP", "bmp",
+		"JPG", "jpg",
 		"JPEG", "jpeg",
 		"PNG", "png",
 		"TIFF", "tiff"
