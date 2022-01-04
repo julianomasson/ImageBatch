@@ -61,6 +61,8 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title,
 	notebook->AddPage(renamePanel, "Rename", true);
 	operations.emplace_back(renamePanel);
 
+	notebook->SetSelection(0);
+
 	staticSizerOperations->Add(notebook, 1, wxALL | wxEXPAND, 5);
 	boxSizer->Add(staticSizerOperations, 0, wxALL | wxEXPAND, 5);
 
